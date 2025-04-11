@@ -16,24 +16,19 @@ import {
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
-import HomeIcon from '@mui/icons-material/Home';
 import CakeIcon from '@mui/icons-material/Cake';
-import BadgeIcon from '@mui/icons-material/Badge';
 import SchoolIcon from '@mui/icons-material/School';
 import WorkIcon from '@mui/icons-material/Work';
 import Config from '../../config.json';
 
 interface FormData {
+    id: number;
     firstName: string;
     lastName: string;
     email: string;
     phoneNumber: string;
-    address: string;
     dob: string;
-    aadharNumber: string;
-    panNumber: string;
-    qualification: string;
-    yearOfPassOut: string;
+    highestQualification: string;
     extension: string;
     status: string;
     isActive: boolean;
@@ -45,16 +40,13 @@ interface FormErrors {
 
 const EnquiryForm: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({
+        id: 0,
         firstName: '',
         lastName: '',
         email: '',
         phoneNumber: '',
-        address: '',
         dob: '',
-        aadharNumber: '',
-        panNumber: '',
-        qualification: '',
-        yearOfPassOut: '',
+        highestQualification: '',
         extension: '',
         status: 'Pending',
         isActive: true,
@@ -64,12 +56,10 @@ const EnquiryForm: React.FC = () => {
     const [submitSuccess, setSubmitSuccess] = useState(false);
 
     const qualifications = [
-        'High School',
-        'Bachelor\'s Degree',
-        'Master\'s Degree',
-        'PhD',
-        'Diploma',
-        'Certificate',
+        '10th',
+        '12th',
+        'UG',
+        'PG'
     ];
 
     const statusOptions = [
@@ -94,20 +84,8 @@ const EnquiryForm: React.FC = () => {
         } else if (!/^[0-9]{10}$/.test(formData.phoneNumber)) {
             newErrors.phoneNumber = 'Phone number must be 10 digits';
         }
-        if (!formData.address) newErrors.address = 'Address is required';
         if (!formData.dob) newErrors.dob = 'Date of birth is required';
-        if (!formData.aadharNumber) {
-            newErrors.aadharNumber = 'Aadhar number is required';
-        } else if (!/^[0-9]{12}$/.test(formData.aadharNumber)) {
-            newErrors.aadharNumber = 'Aadhar number must be 12 digits';
-        }
-        if (!formData.panNumber) {
-            newErrors.panNumber = 'PAN number is required';
-        } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.panNumber)) {
-            newErrors.panNumber = 'Invalid PAN number format';
-        }
-        if (!formData.qualification) newErrors.qualification = 'Qualification is required';
-        if (!formData.yearOfPassOut) newErrors.yearOfPassOut = 'Year of pass out is required';
+        if (!formData.highestQualification) newErrors.highestQualification = 'Highest qualification is required';
         if (!formData.status) newErrors.status = 'Status is required';
 
         setErrors(newErrors);
@@ -266,83 +244,20 @@ const EnquiryForm: React.FC = () => {
                                 <Box sx={{ mt: 2 }}>
                                     <TextField
                                         fullWidth
-                                        name="address"
-                                        label="Address"
-                                        multiline
-                                        rows={3}
-                                        value={formData.address}
+                                        name="dob"
+                                        label="Date of Birth"
+                                        type="date"
+                                        value={formData.dob}
                                         onChange={handleChange}
-                                        error={!!errors.address}
-                                        helperText={errors.address}
+                                        error={!!errors.dob}
+                                        helperText={errors.dob}
+                                        InputLabelProps={{ shrink: true }}
                                         InputProps={{
-                                            startAdornment: <HomeIcon sx={{ mr: 1, mt: 1, color: 'action.active' }} />
+                                            startAdornment: <CakeIcon sx={{ mr: 1, color: 'action.active' }} />
                                         }}
                                         sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1 } }}
                                     />
                                 </Box>
-                            </Box>
-
-                            <Box>
-                                <Typography variant="h6" sx={{ color: '#1976d2', display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                                    <BadgeIcon /> Identity Information
-                                </Typography>
-
-                                <Grid container columnSpacing={2} rowSpacing={2}>
-                                    <Grid item xs={12} sm={6}>
-                                        <TextField
-                                            fullWidth
-                                            name="dob"
-                                            label="Date of Birth"
-                                            type="date"
-                                            value={formData.dob}
-                                            onChange={handleChange}
-                                            error={!!errors.dob}
-                                            helperText={errors.dob}
-                                            InputLabelProps={{ shrink: true }}
-                                            InputProps={{
-                                                startAdornment: <CakeIcon sx={{ mr: 1, color: 'action.active' }} />
-                                            }}
-                                            sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1 } }}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <TextField
-                                            fullWidth
-                                            name="aadharNumber"
-                                            label="Aadhar Number"
-                                            value={formData.aadharNumber}
-                                            onChange={handleChange}
-                                            error={!!errors.aadharNumber}
-                                            helperText={errors.aadharNumber}
-                                            sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1 } }}
-                                        />
-                                    </Grid>
-                                </Grid>
-
-                                <Grid container columnSpacing={2} rowSpacing={2} sx={{ mt: 2 }}>
-                                    <Grid item xs={12} sm={6}>
-                                        <TextField
-                                            fullWidth
-                                            name="panNumber"
-                                            label="PAN Number"
-                                            value={formData.panNumber}
-                                            onChange={handleChange}
-                                            error={!!errors.panNumber}
-                                            helperText={errors.panNumber}
-                                            sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1 } }}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <TextField
-                                            fullWidth
-                                            name="extension"
-                                            label="Extension"
-                                            value={formData.extension}
-                                            onChange={handleChange}
-                                            sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1 } }}
-                                        />
-                                    </Grid>
-                                </Grid>
                             </Box>
 
                             <Box>
@@ -354,13 +269,13 @@ const EnquiryForm: React.FC = () => {
                                     <Grid item xs={12} sm={6}>
                                         <TextField
                                             fullWidth
-                                            name="qualification"
+                                            name="highestQualification"
                                             select
-                                            label="Qualification"
-                                            value={formData.qualification}
+                                            label="Highest Qualification"
+                                            value={formData.highestQualification}
                                             onChange={handleChange}
-                                            error={!!errors.qualification}
-                                            helperText={errors.qualification}
+                                            error={!!errors.highestQualification}
+                                            helperText={errors.highestQualification}
                                             sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1 } }}
                                         >
                                             {qualifications.map((option) => (
@@ -373,14 +288,10 @@ const EnquiryForm: React.FC = () => {
                                     <Grid item xs={12} sm={6}>
                                         <TextField
                                             fullWidth
-                                            name="yearOfPassOut"
-                                            label="Year of Pass Out"
-                                            value={formData.yearOfPassOut}
+                                            name="extension"
+                                            label="Extension"
+                                            value={formData.extension}
                                             onChange={handleChange}
-                                            error={!!errors.yearOfPassOut}
-                                            helperText={errors.yearOfPassOut}
-                                            type="number"
-                                            InputProps={{ inputProps: { min: 1900, max: 2099 } }}
                                             sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1 } }}
                                         />
                                     </Grid>
