@@ -404,6 +404,7 @@ const EnquiryDetails: React.FC = () => {
     };
 
     const handleChangePage = (event: unknown, newPage: number) => {
+        console.log("newPage", event, newPage);
         setPage(newPage);
     };
 
