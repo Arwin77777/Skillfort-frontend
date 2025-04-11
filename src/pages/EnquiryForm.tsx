@@ -20,6 +20,7 @@ import CakeIcon from '@mui/icons-material/Cake';
 import SchoolIcon from '@mui/icons-material/School';
 import WorkIcon from '@mui/icons-material/Work';
 import Config from '../../config.json';
+import { Link } from 'react-router-dom';
 
 interface FormData {
     id: number;
@@ -354,6 +355,9 @@ const EnquiryForm: React.FC = () => {
                                 }}
                             >
                                 Submit Application
+                            </Button>
+                            <Button>
+                                <Link to="/enquiries">Go to Enquiries(dummy link)</Link>
                             </Button>
                         </Stack>
                     </form>
