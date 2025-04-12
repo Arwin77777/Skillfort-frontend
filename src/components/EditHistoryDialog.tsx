@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import {
-    Box,
-    Paper,
-    Typography,
-    Grid,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
     TextField,
     Button,
     FormControl,
@@ -13,20 +12,16 @@ import {
     MenuItem,
     SelectChangeEvent,
     Alert,
+    Grid,
 } from '@mui/material';
 import Config from '../../config.json';
+import type { EnquiryHistory } from '../types/enquiry';
 
-interface EnquiryHistoryDetails {
-    attenderComment: string;
-    attenderId: number;
-    callBackDate: string;
-    candidateComment: string;
-    enquiryDate: string;
-    enquiryId: number;
-    id: number;
-    isActive: boolean;
-    joiningDate: string;
-    responseStatus: string;
+interface EditHistoryDialogProps {
+    open: boolean;
+    onClose: () => void;
+    history: EnquiryHistory;
+    onUpdate: (updatedHistory: EnquiryHistory) => void;
 }
 
 const responseStatusOptions = [
@@ -35,34 +30,14 @@ const responseStatusOptions = [
     { value: 'REFUSED', label: 'Refused' }
 ];
 
-const EnquiryHistoryDetails: React.FC = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const history = location.state?.history as EnquiryHistoryDetails;
+const EditHistoryDialog: React.FC<EditHistoryDialogProps> = ({ open, onClose, history, onUpdate }) => {
+    const [formData, setFormData] = useState<EnquiryHistory>(history);
+    const [error, setError] = useState<string | null>(null);
     const token = localStorage.getItem('token');
 
-    const [formData, setFormData] = useState<EnquiryHistoryDetails>(history || {
-        attenderComment: '',
-        attenderId: 0,
-        callBackDate: '',
-        candidateComment: '',
-        enquiryDate: '',
-        enquiryId: 0,
-        id: 0,
-        isActive: true,
-        joiningDate: '',
-        responseStatus: 'NOTRESPONDED'
-    });
-    const [updateSuccess, setUpdateSuccess] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
-    if (!history) {
-        return (
-            <Box sx={{ p: 3 }}>
-                <Alert severity="error">No history data found</Alert>
-            </Box>
-        );
-    }
+    useEffect(() => {
+        setFormData(history);
+    }, [history]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -97,41 +72,26 @@ const EnquiryHistoryDetails: React.FC = () => {
 
             const data = await response.json();
             if (data.type === 'Success') {
-                setUpdateSuccess(true);
-                setError(null);
-                // Pass the updated data back to the parent component
-                navigate(`/enquiry/${formData.enquiryId}`, { 
-                    state: { 
-                        updatedHistory: data.data,
-                        historyId: formData.id 
-                    } 
-                });
+                onUpdate(data.data);
+                onClose();
             } else {
                 throw new Error(data.message);
             }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An error occurred while updating');
-            setUpdateSuccess(false);
         }
     };
 
     return (
-        <Box sx={{ p: 3 }}>
-            <Typography variant="h4" gutterBottom>
-                Enquiry History Details
-            </Typography>
-            {updateSuccess && (
-                <Alert severity="success" sx={{ mb: 2 }}>
-                    History updated successfully
-                </Alert>
-            )}
-            {error && (
-                <Alert severity="error" sx={{ mb: 2 }}>
-                    {error}
-                </Alert>
-            )}
-            <Paper sx={{ p: 3 }}>
-                <Grid container spacing={3}>
+        <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+            <DialogTitle>Edit Enquiry History</DialogTitle>
+            <DialogContent>
+                {error && (
+                    <Alert severity="error" sx={{ mb: 2 }}>
+                        {error}
+                    </Alert>
+                )}
+                <Grid container spacing={2} sx={{ mt: 1 }}>
                     <Grid item xs={12}>
                         <TextField
                             fullWidth
@@ -148,7 +108,7 @@ const EnquiryHistoryDetails: React.FC = () => {
                             fullWidth
                             label="Candidate Comment"
                             name="candidateComment"
-                            value={formData.candidateComment}
+                            value={formData?.candidateComment}
                             onChange={handleInputChange}
                             multiline
                             rows={3}
@@ -160,7 +120,7 @@ const EnquiryHistoryDetails: React.FC = () => {
                             label="Joining Date"
                             type="date"
                             name="joiningDate"
-                            value={formData.joiningDate ? new Date(formData.joiningDate).toISOString().split('T')[0] : ''}
+                            value={formData?.joiningDate ? new Date(formData.joiningDate).toISOString().split('T')[0] : ''}
                             onChange={handleInputChange}
                             InputLabelProps={{
                                 shrink: true,
@@ -173,7 +133,7 @@ const EnquiryHistoryDetails: React.FC = () => {
                             label="Call Back Date"
                             type="date"
                             name="callBackDate"
-                            value={formData.callBackDate ? new Date(formData.callBackDate).toISOString().split('T')[0] : ''}
+                            value={formData?.callBackDate ? new Date(formData.callBackDate).toISOString().split('T')[0] : ''}
                             onChange={handleInputChange}
                             InputLabelProps={{
                                 shrink: true,
@@ -185,7 +145,7 @@ const EnquiryHistoryDetails: React.FC = () => {
                             <InputLabel>Response Status</InputLabel>
                             <Select
                                 name="responseStatus"
-                                value={formData.responseStatus}
+                                value={formData?.responseStatus}
                                 onChange={handleSelectChange}
                                 label="Response Status"
                             >
@@ -197,27 +157,16 @@ const EnquiryHistoryDetails: React.FC = () => {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12}>
-                        <Box sx={{ display: 'flex', gap: 2 }}>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleUpdate}
-                            >
-                                Update History
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                onClick={() => navigate(-1)}
-                            >
-                                Back
-                            </Button>
-                        </Box>
-                    </Grid>
                 </Grid>
-            </Paper>
-        </Box>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={onClose}>Cancel</Button>
+                <Button onClick={handleUpdate} variant="contained" color="primary">
+                    Update History
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
 };
 
-export default EnquiryHistoryDetails; 
+export default EditHistoryDialog; 

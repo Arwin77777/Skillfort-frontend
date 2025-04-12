@@ -23,7 +23,6 @@ import Config from '../../config.json';
 import { Link } from 'react-router-dom';
 
 interface FormData {
-    id: number;
     firstName: string;
     lastName: string;
     email: string;
@@ -41,7 +40,6 @@ interface FormErrors {
 
 const EnquiryForm: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({
-        id: 0,
         firstName: '',
         lastName: '',
         email: '',
