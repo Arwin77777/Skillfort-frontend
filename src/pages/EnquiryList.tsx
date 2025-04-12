@@ -88,6 +88,7 @@ const EnquiryList: React.FC = () => {
     const [selectedTab, setSelectedTab] = useState<string>('new');
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+        console.log(event);
         setSelectedTab(newValue);
         setPage(0); // Reset page when changing tabs
     };
@@ -131,6 +132,7 @@ const EnquiryList: React.FC = () => {
     }, [navigate, page, rowsPerPage, selectedTab]);
 
     const handleChangePage = (event: unknown, newPage: number) => {
+        console.log(event);
         setPage(newPage);
     };
 

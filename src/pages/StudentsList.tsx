@@ -65,6 +65,7 @@ const StudentsList: React.FC = () => {
     }, [navigate, page, rowsPerPage]);
 
     const handleChangePage = (event: unknown, newPage: number) => {
+        console.log(event);
         setPage(newPage);
     };
 
