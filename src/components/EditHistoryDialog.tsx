@@ -149,7 +149,7 @@ const EditHistoryDialog: React.FC<EditHistoryDialogProps> = ({ open, onClose, hi
                                 onChange={handleSelectChange}
                                 label="Response Status"
                             >
-                                {responseStatusOptions.map((option) => (
+                                {responseStatusOptions?.map((option) => (
                                     <MenuItem key={option.value} value={option.value}>
                                         {option.label}
                                     </MenuItem>

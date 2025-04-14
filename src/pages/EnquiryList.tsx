@@ -90,7 +90,7 @@ const EnquiryList: React.FC = () => {
     const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
         console.log(event);
         setSelectedTab(newValue);
-        setPage(0); // Reset page when changing tabs
+        setPage(0); 
     };
 
     useEffect(() => {
@@ -116,8 +116,8 @@ const EnquiryList: React.FC = () => {
 
                 const data: ApiResponse = await response.json();
                 if (data.type === 'Success') {
-                    setEnquiries(data.data);
-                    setTotalRecords(data.pageMetaData.totalRecords);
+                    setEnquiries(data?.data);
+                    setTotalRecords(data?.pageMetaData?.totalRecords);
                 } else {
                     throw new Error(data.message);
                 }
@@ -204,33 +204,33 @@ const EnquiryList: React.FC = () => {
                                         }
                                     }}
                                 >
-                                    <TableCell>{enquiry.enquiryId}</TableCell>
-                                    <TableCell>{enquiry.source}</TableCell>
-                                    <TableCell>{enquiry.referredBy}</TableCell>
-                                    <TableCell>{enquiry.course}</TableCell>
-                                    <TableCell>{enquiry.profession}</TableCell>
+                                    <TableCell>{enquiry?.enquiryId}</TableCell>
+                                    <TableCell>{enquiry?.source}</TableCell>
+                                    <TableCell>{enquiry?.referredBy}</TableCell>
+                                    <TableCell>{enquiry?.course}</TableCell>
+                                    <TableCell>{enquiry?.profession}</TableCell>
                                     <TableCell>
                                         <Chip 
-                                            label={enquiry.status} 
+                                            label={enquiry?.status} 
                                             color={
-                                                enquiry.status === 'NEW' ? 'primary' :
-                                                enquiry.status === 'ACCEPTED' ? 'success' :
-                                                enquiry.status === 'REJECTED' ? 'error' :
-                                                enquiry.status === 'CALLBACK' ? 'warning' : 'default'
+                                                enquiry?.status === 'NEW' ? 'primary' :
+                                                enquiry?.status === 'ACCEPTED' ? 'success' :
+                                                enquiry?.status === 'REJECTED' ? 'error' :
+                                                enquiry?.status === 'CALLBACK' ? 'warning' : 'default'
                                             }
                                         />
                                     </TableCell>
-                                    <TableCell>{enquiry.enquiryHistories.length}</TableCell>
+                                    <TableCell>{enquiry?.enquiryHistories?.length}</TableCell>
                                     <TableCell>
                                         <Chip 
-                                            label={enquiry.currentlyWorking ? 'Working' : 'Not Working'}
-                                            color={enquiry.currentlyWorking ? 'success' : 'default'}
+                                            label={enquiry?.currentlyWorking ? 'Working' : 'Not Working'}
+                                            color={enquiry?.currentlyWorking ? 'success' : 'default'}
                                         />
                                     </TableCell>
                                     <TableCell>
                                         <Chip 
-                                            label={enquiry.placementRequired ? 'Required' : 'Not Required'}
-                                            color={enquiry.placementRequired ? 'info' : 'default'}
+                                            label={enquiry?.placementRequired ? 'Required' : 'Not Required'}
+                                            color={enquiry?.placementRequired ? 'info' : 'default'}
                                         />
                                     </TableCell>
                                 </TableRow>

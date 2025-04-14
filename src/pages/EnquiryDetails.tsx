@@ -203,7 +203,11 @@ const EnquiryDetails: React.FC = () => {
                     throw new Error('Failed to fetch enquiry details');
                 }
                 const data: ApiResponse<EnquiryDetailsType> = await response.json();
-                setEnquiry(data.data);
+                if (data?.type === 'Success') {
+                    setEnquiry(data?.data);
+                } else {
+                    throw new Error(data?.message);
+                }
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An error occurred');
             } finally {
@@ -222,7 +226,7 @@ const EnquiryDetails: React.FC = () => {
 
     const handleHistoryUpdate = (updatedHistory: EnquiryHistory) => {
         if (enquiry) {
-            const updatedHistories = enquiry.enquiryHistories.map(history =>
+            const updatedHistories = enquiry?.enquiryHistories?.map(history =>
                 history.id === updatedHistory.id ? updatedHistory : history
             );
             setEnquiry({ ...enquiry, enquiryHistories: updatedHistories });
@@ -263,16 +267,16 @@ const EnquiryDetails: React.FC = () => {
                     </Button>
                 </Box>
                 <Box mb={3}>
-                    <Typography variant="h6">Course: {enquiry.course}</Typography>
-                    <Typography variant="body1">Source: {enquiry.source}</Typography>
-                    <Typography variant="body1">Status: {enquiry.status}</Typography>
-                    <Typography variant="body1">Placement Required: {enquiry.placementRequired ? 'Yes' : 'No'}</Typography>
-                    <Typography variant="body1">Currently Working: {enquiry.currentlyWorking ? 'Yes' : 'No'}</Typography>
-                    <Typography variant="body1">Profession: {enquiry.profession}</Typography>
-                    <Typography variant="body1">Referred By: {enquiry.referredBy}</Typography>
-                    <Typography variant="body1">Referrer Phone: {enquiry.referrerPhoneNumber}</Typography>
-                    <Typography variant="body1">Total Experience: {enquiry.totalExperience} years</Typography>
-                    <Typography variant="body1">Is Active: {enquiry.isActive ? 'Yes' : 'No'}</Typography>
+                    <Typography variant="h6">Course: {enquiry?.course}</Typography>
+                    <Typography variant="body1">Source: {enquiry?.source}</Typography>
+                    <Typography variant="body1">Status: {enquiry?.status}</Typography>
+                    <Typography variant="body1">Placement Required: {enquiry?.placementRequired ? 'Yes' : 'No'}</Typography>
+                    <Typography variant="body1">Currently Working: {enquiry?.currentlyWorking ? 'Yes' : 'No'}</Typography>
+                    <Typography variant="body1">Profession: {enquiry?.profession}</Typography>
+                    <Typography variant="body1">Referred By: {enquiry?.referredBy}</Typography>
+                    <Typography variant="body1">Referrer Phone: {enquiry?.referrerPhoneNumber}</Typography>
+                    <Typography variant="body1">Total Experience: {enquiry?.totalExperience} years</Typography>
+                    <Typography variant="body1">Is Active: {enquiry?.isActive ? 'Yes' : 'No'}</Typography>
                 </Box>
                 <Button variant="contained" color="primary" onClick={() => navigate(-1)}>
                     Back

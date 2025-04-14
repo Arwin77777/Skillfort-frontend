@@ -102,12 +102,12 @@ const EnquiryHistoryDetails: React.FC = () => {
                 // Pass the updated data back to the parent component
                 navigate(`/enquiry/${formData.enquiryId}`, { 
                     state: { 
-                        updatedHistory: data.data,
-                        historyId: formData.id 
+                        updatedHistory: data?.data,
+                        historyId: formData?.id 
                     } 
                 });
             } else {
-                throw new Error(data.message);
+                throw new Error(data?.message);
             }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An error occurred while updating');
@@ -148,7 +148,7 @@ const EnquiryHistoryDetails: React.FC = () => {
                             fullWidth
                             label="Candidate Comment"
                             name="candidateComment"
-                            value={formData.candidateComment}
+                            value={formData?.candidateComment}
                             onChange={handleInputChange}
                             multiline
                             rows={3}
@@ -160,7 +160,7 @@ const EnquiryHistoryDetails: React.FC = () => {
                             label="Joining Date"
                             type="date"
                             name="joiningDate"
-                            value={formData.joiningDate ? new Date(formData.joiningDate).toISOString().split('T')[0] : ''}
+                            value={formData?.joiningDate ? new Date(formData.joiningDate).toISOString().split('T')[0] : ''}
                             onChange={handleInputChange}
                             InputLabelProps={{
                                 shrink: true,
@@ -173,7 +173,7 @@ const EnquiryHistoryDetails: React.FC = () => {
                             label="Call Back Date"
                             type="date"
                             name="callBackDate"
-                            value={formData.callBackDate ? new Date(formData.callBackDate).toISOString().split('T')[0] : ''}
+                            value={formData?.callBackDate ? new Date(formData.callBackDate).toISOString().split('T')[0] : ''}
                             onChange={handleInputChange}
                             InputLabelProps={{
                                 shrink: true,
@@ -189,7 +189,7 @@ const EnquiryHistoryDetails: React.FC = () => {
                                 onChange={handleSelectChange}
                                 label="Response Status"
                             >
-                                {responseStatusOptions.map((option) => (
+                                {responseStatusOptions?.map((option) => (
                                     <MenuItem key={option.value} value={option.value}>
                                         {option.label}
                                     </MenuItem>

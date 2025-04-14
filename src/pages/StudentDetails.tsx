@@ -141,7 +141,7 @@ const StudentDetails: React.FC = () => {
         if (!student) return;
 
         const updatedEducationDetails = editingEducation
-            ? student.educationDetails.map(edu => 
+            ? student.educationDetails?.map(edu => 
                 (edu.id === editingEducation.id || edu.educationDetailId === editingEducation.educationDetailId)
                     ? { ...education, id: edu.id || edu.educationDetailId }
                     : edu
@@ -183,7 +183,7 @@ const StudentDetails: React.FC = () => {
         if (!student) return;
 
         const updatedCompanyDetails = editingCompany
-            ? student.companyDetails.map(comp => 
+            ? student.companyDetails?.map(comp => 
                 (comp.id === editingCompany.id || comp.companyDetailId === editingCompany.companyDetailId)
                     ? { ...company, id: comp.id || comp.companyDetailId }
                     : comp
@@ -405,7 +405,7 @@ const StudentDetails: React.FC = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {student.educationDetails.map((edu) => (
+                            {student.educationDetails?.map((edu) => (
                                 <TableRow key={edu.educationDetailId || edu.id}>
                                     <TableCell>{edu.type}</TableCell>
                                     <TableCell>{edu.schoolName}</TableCell>
@@ -453,7 +453,7 @@ const StudentDetails: React.FC = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {student.companyDetails.map((company) => (
+                            {student?.companyDetails?.map((company) => (
                                 <TableRow key={company.companyDetailId || company.id}>
                                     <TableCell>{company.companyName}</TableCell>
                                     <TableCell>{company.designation}</TableCell>

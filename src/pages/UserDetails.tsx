@@ -41,10 +41,10 @@ const UserDetails: React.FC = () => {
                 }
 
                 const data: ApiResponse<User> = await response.json();
-                if (data.type === 'Success') {
-                    setUser(data.data);
+                if (data?.type === 'Success') {
+                    setUser(data?.data);
                 } else {
-                    throw new Error(data.message);
+                    throw new Error(data?.message);
                 }
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An error occurred');
@@ -93,25 +93,25 @@ const UserDetails: React.FC = () => {
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6}>
                         <Typography variant="subtitle2" color="textSecondary">Name</Typography>
-                        <Typography variant="body1">{`${user.firstName} ${user.lastName}`}</Typography>
+                        <Typography variant="body1">{`${user?.firstName} ${user?.lastName}`}</Typography>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Typography variant="subtitle2" color="textSecondary">Email</Typography>
-                        <Typography variant="body1">{user.email}</Typography>
+                        <Typography variant="body1">{user?.email}</Typography>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Typography variant="subtitle2" color="textSecondary">Phone Number</Typography>
-                        <Typography variant="body1">{user.phoneNumber}</Typography>
+                        <Typography variant="body1">{user?.phoneNumber}</Typography>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Typography variant="subtitle2" color="textSecondary">Extension</Typography>
-                        <Typography variant="body1">{user.extension || '-'}</Typography>
+                        <Typography variant="body1">{user?.extension || '-'}</Typography>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Typography variant="subtitle2" color="textSecondary">Role</Typography>
                         <Chip 
-                            label={user.role}
-                            color={user.role === 'ADMIN' ? 'primary' : 'default'}
+                            label={user?.role}
+                            color={user?.role === 'ADMIN' ? 'primary' : 'default'}
                             size="small"
                         />
                     </Grid>
@@ -119,11 +119,11 @@ const UserDetails: React.FC = () => {
                         <Typography variant="subtitle2" color="textSecondary">Status</Typography>
                         <Box display="flex" gap={1}>
                             <Chip 
-                                label={user.isActive ? 'Active' : 'Inactive'}
-                                color={user.isActive ? 'success' : 'error'}
+                                label={user?.isActive ? 'Active' : 'Inactive'}
+                                color={user?.isActive ? 'success' : 'error'}
                                 size="small"
                             />
-                            {user.isLoginDisabled && (
+                            {user?.isLoginDisabled && (
                                 <Chip 
                                     label="Login Disabled"
                                     color="warning"
@@ -134,25 +134,25 @@ const UserDetails: React.FC = () => {
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Typography variant="subtitle2" color="textSecondary">Channel</Typography>
-                        <Typography variant="body1">{user.channelName || '-'}</Typography>
+                        <Typography variant="body1">{user?.channelName || '-'}</Typography>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Typography variant="subtitle2" color="textSecondary">Last Login</Typography>
                         <Typography variant="body1">
-                            {user.lastLoginTime ? new Date(user.lastLoginTime).toLocaleString() : 'Never'}
+                            {user?.lastLoginTime ? new Date(user?.lastLoginTime).toLocaleString() : 'Never'}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Typography variant="subtitle2" color="textSecondary">Created At</Typography>
-                        <Typography variant="body1">{new Date(user.createdAt).toLocaleString()}</Typography>
+                        <Typography variant="body1">{user?.createdAt ? new Date(user?.createdAt).toLocaleString() : '-'}</Typography>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Typography variant="subtitle2" color="textSecondary">Updated At</Typography>
-                        <Typography variant="body1">{new Date(user.updatedAt).toLocaleString()}</Typography>
+                        <Typography variant="body1">{user?.updatedAt ? new Date(user?.updatedAt).toLocaleString() : '-'}</Typography>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Typography variant="subtitle2" color="textSecondary">Login Failure Count</Typography>
-                        <Typography variant="body1">{user.loginFailureCounter}</Typography>
+                        <Typography variant="body1">{user?.loginFailureCounter || 0}</Typography>
                     </Grid>
                 </Grid>
             </Paper>

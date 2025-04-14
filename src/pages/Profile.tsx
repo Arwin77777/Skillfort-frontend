@@ -54,17 +54,17 @@ const Profile: React.FC = () => {
         }
 
         const data = await response.json();
-        if (data.type === 'Success') {
-          setUser(data.data);
+        if (data?.type === 'Success') {
+          setUser(data?.data);
           setFormData({
-            firstName: data.data.firstName,
-            lastName: data.data.lastName,
-            email: data.data.email,
-            phoneNumber: data.data.phoneNumber,
-            extension: data.data.extension || '',
+            firstName: data?.data?.firstName || '',
+            lastName: data?.data?.lastName || '',
+            email: data?.data?.email || '',
+            phoneNumber: data?.data?.phoneNumber || '',
+            extension: data?.data?.extension || '',
           });
         } else {
-          throw new Error(data.message);
+          throw new Error(data?.message);
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
@@ -166,7 +166,7 @@ const Profile: React.FC = () => {
                 fullWidth
                 label="First Name"
                 name="firstName"
-                value={formData.firstName}
+                value={formData?.firstName || ''}
                 onChange={handleInputChange}
                 disabled={!editing}
                 required
@@ -177,7 +177,7 @@ const Profile: React.FC = () => {
                 fullWidth
                 label="Last Name"
                 name="lastName"
-                value={formData.lastName}
+                value={formData?.lastName || ''}
                 onChange={handleInputChange}
                 disabled={!editing}
                 required
@@ -189,7 +189,7 @@ const Profile: React.FC = () => {
                 label="Email"
                 name="email"
                 type="email"
-                value={formData.email}
+                value={formData?.email || ''}
                 onChange={handleInputChange}
                 disabled={!editing}
                 required
@@ -200,7 +200,7 @@ const Profile: React.FC = () => {
                 fullWidth
                 label="Phone Number"
                 name="phoneNumber"
-                value={formData.phoneNumber}
+                value={formData?.phoneNumber || ''}
                 onChange={handleInputChange}
                 disabled={!editing}
                 required
@@ -211,7 +211,7 @@ const Profile: React.FC = () => {
                 fullWidth
                 label="Extension"
                 name="extension"
-                value={formData.extension}
+                value={formData?.extension || ''}
                 onChange={handleInputChange}
                 disabled={!editing}
               />

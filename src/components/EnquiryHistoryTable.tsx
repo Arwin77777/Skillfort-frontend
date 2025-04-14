@@ -31,7 +31,7 @@ const EnquiryHistoryTable: React.FC<EnquiryHistoryTableProps> = ({ histories, on
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {histories.map((history) => (
+                    {histories?.map((history) => (
                         <TableRow 
                             key={history.id}
                             onClick={() => onRowClick(history)}

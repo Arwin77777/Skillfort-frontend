@@ -74,9 +74,9 @@ const UsersList: React.FC = () => {
                     }
 
                     const data: ApiResponse<AutocompleteUser[]> = await response.json();
-                    if (data.type === 'Success' && data.data.length > 0) {
-                        setSearchSuggestions(data.data);
-                        const userPromises = data.data.map(user => fetchUsers(user.userId));
+                    if (data?.type === 'Success' && data?.data?.length > 0) {
+                        setSearchSuggestions(data?.data);
+                        const userPromises = data?.data?.map(user => fetchUsers(user?.userId));
                         await Promise.all(userPromises);
                     } else {
                         setSearchSuggestions([]);
@@ -123,23 +123,23 @@ const UsersList: React.FC = () => {
             }
 
             const data: ApiResponse<User[]> = await response.json();
-            if (data.type === 'Success') {
+            if (data?.type === 'Success') {
                 if (userId) {
                     // If fetching a single user, add it to the existing users
-                    const newUser = Array.isArray(data.data) ? data.data[0] : data.data;
+                    const newUser = Array.isArray(data?.data) ? data?.data[0] : data?.data;
                     setUsers(prevUsers => {
-                        const userExists = prevUsers.some(u => u.ID === newUser.ID);
+                        const userExists = prevUsers?.some(u => u?.ID === newUser?.ID);
                         if (!userExists) {
                             return [...prevUsers, newUser];
                         }
                         return prevUsers;
                     });
                 } else {
-                    setUsers(Array.isArray(data.data) ? data.data : [data.data]);
-                    setTotalRecords(data.pageMetaData?.totalRecords || (Array.isArray(data.data) ? data.data.length : 1));
+                    setUsers(Array.isArray(data?.data) ? data?.data : [data?.data]);
+                    setTotalRecords(data?.pageMetaData?.totalRecords || (Array.isArray(data?.data) ? data?.data?.length : 1));
                 }
             } else {
-                throw new Error(data.message);
+                throw new Error(data?.message);
             }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An error occurred');
@@ -245,17 +245,17 @@ const UsersList: React.FC = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {users.length === 0 ? (
+                        {users?.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={8} align="center">
                                     {isSearchActive ? 'No users match your search' : 'No users found'}
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            users.map((user) => (
+                            users?.map((user) => (
                                 <TableRow 
-                                    key={user.ID}
-                                    onClick={() => handleRowClick(user.ID)}
+                                    key={user?.ID}
+                                    onClick={() => handleRowClick(user?.ID)}
                                     sx={{ 
                                         cursor: 'pointer',
                                         '&:hover': {
@@ -263,28 +263,28 @@ const UsersList: React.FC = () => {
                                         }
                                     }}
                                 >
-                                    <TableCell>{user.ID}</TableCell>
-                                    <TableCell>{`${user.firstName} ${user.lastName}`}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.phoneNumber}</TableCell>
+                                    <TableCell>{user?.ID}</TableCell>
+                                    <TableCell>{`${user?.firstName} ${user?.lastName}`}</TableCell>
+                                    <TableCell>{user?.email}</TableCell>
+                                    <TableCell>{user?.phoneNumber}</TableCell>
                                     <TableCell>
                                         <Chip 
-                                            label={user.role}
-                                            color={user.role === 'ADMIN' ? 'primary' : 'default'}
+                                            label={user?.role}
+                                            color={user?.role === 'ADMIN' ? 'primary' : 'default'}
                                             size="small"
                                         />
                                     </TableCell>
                                     <TableCell>
                                         <Chip 
-                                            label={user.isActive ? 'Active' : 'Inactive'}
-                                            color={user.isActive ? 'success' : 'error'}
+                                            label={user?.isActive ? 'Active' : 'Inactive'}
+                                            color={user?.isActive ? 'success' : 'error'}
                                             size="small"
                                         />
                                     </TableCell>
                                     <TableCell>
-                                        {user.lastLoginTime ? new Date(user.lastLoginTime).toLocaleString() : 'Never'}
+                                        {user?.lastLoginTime ? new Date(user?.lastLoginTime).toLocaleString() : 'Never'}
                                     </TableCell>
-                                    <TableCell>{user.channelName || '-'}</TableCell>
+                                    <TableCell>{user?.channelName || '-'}</TableCell>
                                 </TableRow>
                             ))
                         )}

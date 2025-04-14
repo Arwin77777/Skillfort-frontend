@@ -277,7 +277,7 @@ const EnquiryForm: React.FC = () => {
                                             helperText={errors.highestQualification}
                                             sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1 } }}
                                         >
-                                            {qualifications.map((option) => (
+                                            {qualifications?.map((option) => (
                                                 <MenuItem key={option} value={option}>
                                                     {option}
                                                 </MenuItem>
@@ -315,7 +315,7 @@ const EnquiryForm: React.FC = () => {
                                             helperText={errors.status}
                                             sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1 } }}
                                         >
-                                            {statusOptions.map((option) => (
+                                            {statusOptions?.map((option) => (
                                                 <MenuItem key={option} value={option}>
                                                     {option}
                                                 </MenuItem>
